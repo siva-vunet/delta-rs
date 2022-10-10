@@ -489,7 +489,10 @@ fn try_create_lock_client(options: &S3StorageOptions) -> Result<Option<S3LockCli
                 true => rusoto_dynamodb::DynamoDbClient::new_with(
                     dispatcher,
                     get_web_identity_provider()?,
-                    options.region.clone(),
+                    Region::Custom{
+                        name: "eu-east-3".to_owned(),
+                        endpoint: "http://localhost:8000".to_owned(),
+                    },
                 ),
                 false => rusoto_dynamodb::DynamoDbClient::new(options.region.clone()),
             };
